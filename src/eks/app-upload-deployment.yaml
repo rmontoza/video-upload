@@ -1,0 +1,49 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-upload-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ms-upload-deployment
+  template:
+    metadata:
+      labels:
+        app: ms-upload-deployment
+    spec:
+      containers:
+      - name: ms-upload
+        image: rmontoza/msupload:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGODB_URI
+          valueFrom:
+            configMapKeyRef:
+              name: ms-upload-config
+              key: MONGODB_URI
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            configMapKeyRef:
+              name: ms-upload-config
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: ms-upload-config
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_S3_BUCKET_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: ms-upload-config
+              key: AWS_S3_BUCKET_NAME
+        volumeMounts:
+        - name: ms-upload-volume
+          mountPath: /app
+        ##command: ["/start-web.sh"]  # Substitua isso pelo comando de início apropriado, se necessário
+      volumes:
+      - name: ms-upload-volume
+        emptyDir: {}
