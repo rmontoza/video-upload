@@ -40,6 +40,31 @@ spec:
             configMapKeyRef:
               name: ms-upload-config
               key: AWS_S3_BUCKET_NAME
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: ms-upload-config
+              key: PORT
+        - name: MONGO_URI
+          valueFrom:
+            configMapKeyRef:
+              name: ms-upload-config
+              key: MONGO_URI
+        - name: SQS_VIDEO_UPDATE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: ms-upload-config
+              key: SQS_VIDEO_UPDATE_URL
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: ms-upload-config
+              key: AWS_REGION
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: ms-upload-config
+              key: REDIS_URL
         volumeMounts:
         - name: ms-upload-volume
           mountPath: /app
